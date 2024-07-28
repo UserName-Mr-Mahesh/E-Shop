@@ -20,6 +20,7 @@ function Home(props) {
   const handleClick = (event) => {
     let newOffset = ( event.selected * props.itemsPerPage ) % productsData.length;
     setItemOffset(newOffset)
+    console.log("home");
   }
   
   return (
