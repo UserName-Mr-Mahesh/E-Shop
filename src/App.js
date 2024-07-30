@@ -17,7 +17,7 @@ function App() {
       <Menu/>
       <ToastContainer autoClose={4000} position={'top-center'} />
       <Routes>
-        <Route path={`/`} element={<Home itemsPerPage={4} />} />
+        <Route path={`/`} element={<Home itemsPerPage={6} />} />
         <Route path={`/products/:catName`} element={<Products/>} />
         <Route path={`/product/:id/category/:catName`} element={<ProductDetails/>} />
         <Route path={`/cart`} element={<Cart/>} />

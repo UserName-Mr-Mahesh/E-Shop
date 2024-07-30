@@ -12,7 +12,7 @@ function Menu() {
         <div className="container">
             <NavLink to={`/`} className="navbar-brand">E-Shop</NavLink>
 
-            <button className="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#menu">
+            <button className="navbar-toggler outline-none border-0 shadow-none" data-bs-toggle="collapse" data-bs-target="#menu">
                 <span className='navbar-toggler-icon'></span>
             </button>
 

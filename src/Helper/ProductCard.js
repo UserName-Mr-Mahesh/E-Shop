@@ -8,11 +8,11 @@ function ProductCard(props) {
     const addToCart = context.productApi.addToCart
 
     return (
-        <div className="col-lg-3 col-md-4 col-sm-6 mt-2 mb-2">
+        <div className="col-lg-4 col-md-6 col-sm-12 mt-2 mb-2">
             <div className="card">
                 <img src={props.thumbnail} alt="no image" className="card-img-top" width={300} height={250}/>
                 <div className="card-body">
-                    <h4 className="text-center text-success text-capitalize"> {props.title} </h4>
+                    <h4 className="text-center text-success text-capitalize text-truncate"> {props.title} </h4>
                     <h6 className="text-warning"> &#8377; {props.price} </h6>
                     <details>
                         <summary className="text-primary">Product Description</summary>
