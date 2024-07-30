@@ -14,15 +14,23 @@ function Cart() {
 
   const getTotal = () => {
      const total = cart.reduce((prev,item) => {
-      let discountPrice = item.price - (item.price * (item.discountPercentage/100))
-      return prev + (discountPrice * item.quantity)
+      return Math.floor((prev + (item.price * item.quantity*100)))/100
      },0)
 
      setSubTotal(total)
+
+     const discountTotal = cart.reduce((prev,item) => {
+      let discount = (item.price * (item.discountPercentage/100))
+      return Math.floor((prev + (discount * item.quantity))*100)/100;
+     },0)
      setGst(5)
         if(total >= 1000) {
           setDc(0)
-          setDiscount(10)
+          setDiscount(discountTotal)
+        }
+        else{
+          setDc(50);
+          setDiscount(0);
         }
   }
 
@@ -100,6 +108,7 @@ function Cart() {
                       <th>Title</th>
                       <th>Image</th>
                       <th>Price</th>
+                      <th>Discount</th>
                       <th>Quantity</th>
                       <th>Subtotal</th>
                       <th>Action</th>
@@ -116,6 +125,7 @@ function Cart() {
                                 <img src={item.thumbnail} alt="no image" width={80} height={80} />
                               </td>
                               <td> &#8377; {item.price} </td>
+                              <td>{item.discountPercentage}%</td>
                               <td>
                                 <div className="d-flex justify-content-evenly">
                                   <i onClick={() => decrement(item.id)} className="bi bi-dash-circle text-danger pointer"></i>
@@ -123,7 +133,7 @@ function Cart() {
                                   <i onClick={() => increment(item.id)} className="bi bi-plus-circle text-success pointer"></i>
                                 </div>
                               </td>
-                              <td> &#8377; {item.price * item.quantity} </td>
+                              <td> &#8377; {Math.floor(item.price * item.quantity*100)/100} </td>
                               <td>
                                 <i onClick={() => delItem(item.id)} className="bi bi-trash text-danger pointer"></i>
                               </td>
@@ -147,13 +157,13 @@ function Cart() {
                       <li className="list-group-item">
                         <strong>SubTotal</strong>
                         <span className="text-success float-end">
-                          + &#8377; { Math.round(subTotal) }
+                          + &#8377; { subTotal }
                         </span>
                       </li>
                       <li className="list-group-item">
                         <strong>Discount</strong>
                         <span className="text-danger float-end"> 
-                          - &#8377; { Math.round(subTotal * (discount/100)) }
+                          - &#8377; { discount }
                         </span>
                       </li>
                       <li className="list-group-item">
@@ -166,7 +176,7 @@ function Cart() {
                       <li className="list-group-item mt-2 mb-2">
                         <strong>Total</strong>
                         <span className="text-success float-end">
-                          = &#8377; {Math.round((subTotal+dc) - (Math.round(subTotal * (discount/100))))}
+                          = &#8377; {Math.floor((subTotal+dc) - (discount))}
                         </span>
                       </li>
                     </ul>
