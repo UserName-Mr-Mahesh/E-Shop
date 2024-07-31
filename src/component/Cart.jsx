@@ -1,5 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { ProductContext } from '../ProductContext'
+import { NavLink } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function Cart() {
 
@@ -12,13 +14,14 @@ function Cart() {
   const [dc,setDc] = context.productApi.dc
   const [gst,setGst] = context.productApi.gst
 
+  //subtotal
   const getTotal = () => {
      const total = cart.reduce((prev,item) => {
       return Math.floor((prev + (item.price * item.quantity*100)))/100
      },0)
 
      setSubTotal(total)
-
+     //total discount
      const discountTotal = cart.reduce((prev,item) => {
       let discount = (item.price * (item.discountPercentage/100))
       return Math.floor((prev + (discount * item.quantity))*100)/100;
@@ -41,9 +44,12 @@ function Cart() {
   //increment
   const increment = (id) => {
       cart.forEach(item => {
-        if(item.id === id) {
+        if(item.id === id && item.quantity<item.stock) {
           item.quantity += 1
+        }else{
+          toast.warning('Out of stock');
         }
+
       })
       setCart([...cart])
   }
@@ -69,17 +75,6 @@ function Cart() {
       setCart([...cart])
     }
   }
-  
-  // if(cart.length === 0) 
-  // return (
-  //   <div className="container">
-  //     <div className="row">
-  //       <div className="col-md-12 text-center">
-  //         <h3 className="display-3 text-secondary">Cart is Empty</h3>
-  //       </div>
-  //     </div>
-  //   </div>
-  // )
   
   return (
     <div className="container-fluid">
@@ -122,10 +117,12 @@ function Cart() {
                             <tr key={index}>
                               <td> {item.title} </td>
                               <td>
-                                <img src={item.thumbnail} alt="no image" width={80} height={80} />
+                                <NavLink to={`/product/${item.id}/category/${item.category}`} className="btn btn-sm border-0 shadow-none" title="product details">
+                                  <img src={item.thumbnail} alt="no image" width={80} height={80} />
+                                </NavLink> 
                               </td>
                               <td> &#8377; {item.price} </td>
-                              <td>{item.discountPercentage}%</td>
+                              <td>{item.discountPercentage} %</td>
                               <td>
                                 <div className="d-flex justify-content-evenly">
                                   <i onClick={() => decrement(item.id)} className="bi bi-dash-circle text-danger pointer"></i>
@@ -148,21 +145,22 @@ function Cart() {
                 <hr className='col-12' />
                   {cart && cart.map((item,index) => (
                     <div key={index} className="mb-3 d-flex flex-wrap">
-                      <div className="font-weight-bold col-6">Title</div><div className="ml-2">{item.title}</div><hr />
-                      <div className="font-weight-bold col-6">Image</div><div className="ml-2"><img src={item.thumbnail} alt="no image" width={80} height={80} /></div><hr />
-                      <div className="font-weight-bold col-6">Price</div><div className="ml-2">{item.price}</div><hr />
-                      <div className="font-weight-bold col-6">Discount</div><div className="ml-2">{item.discountPercentage}</div><hr />
-                      <div className="font-weight-bold col-6">Quantity</div><div className="ml-2"><div className="d-flex justify-content-evenly">
+                      <div className="font-weight-bold col-6">Title</div><div className="ml-2 text-truncate col-6">{item.title}</div><hr />
+                      <div className="font-weight-bold col-6">Image</div><div className="ml-2"><NavLink to={`/product/${item.id}/category/${item.category}`} className="btn btn-sm border-0 shadow-none" title="product details">
+                                  <img src={item.thumbnail} alt="no image" width={80} height={80} />
+                                </NavLink></div><hr />
+                      <div className="font-weight-bold col-6">Price</div><div className="ml-2">&#8377; {item.price}</div><hr />
+                      <div className="font-weight-bold col-6">Discount</div><div className="ml-2">{item.discountPercentage} %</div><hr />
+                      <div className="font-weight-bold col-6">Quantity</div><div className="ml-2 d-flex justify-content-between">
                                   <i onClick={() => decrement(item.id)} className="bi bi-dash-circle text-danger pointer"></i>
                                     <strong> {item.quantity} </strong>
                                   <i onClick={() => increment(item.id)} className="bi bi-plus-circle text-success pointer"></i>
-                                </div></div><hr />
-                      <div className="font-weight-bold col-6">Subtotal</div><div className="ml-2">{Math.floor(item.price * item.quantity*100)/100}</div><hr />
+                                </div><hr />
+                      <div className="font-weight-bold col-6">Subtotal</div><div className="ml-2">&#8377;  {Math.floor(item.price * item.quantity*100)/100}</div><hr />
                       <div className="font-weight-bold col-6">Action</div><div className="ml-2"><i onClick={() => delItem(item.id)} className="bi bi-trash text-danger pointer"></i></div><hr className='col-12' />
                     </div>
                   ))}
                 </div>
-
 
               </div>
 

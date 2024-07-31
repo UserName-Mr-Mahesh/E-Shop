@@ -94,7 +94,7 @@ export default function ProductDetails() {
                   </div>
 
                   {/* carousel images */}
-                  <div className="carousel-inner" style={{ height: "300px"}}>
+                  <div className="carousel-inner " style={{ height: "300px"}}>
                     <div className="carousel-item active">
                       <img src={product.thumbnail} className="d-block w-100" alt="no image found"  style={{height:"300px"}}/>
                     </div>
