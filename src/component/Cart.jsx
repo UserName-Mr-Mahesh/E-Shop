@@ -141,30 +141,55 @@ function Cart() {
                   </tbody>
                 </table>
                 {/* Mobile view */}
-                <div className="d-block d-sm-none">
-                <hr className='col-12' />
+                <div className="col-12 d-block d-sm-none ">
                   {cart && cart.map((item,index) => (
-                    <div key={index} className="mb-3 d-flex flex-wrap">
-                      <div className="font-weight-bold col-6">Title</div><div className="ml-2 text-truncate col-6">{item.title}</div><hr />
-                      <div className="font-weight-bold col-6">Image</div><div className="ml-2"><NavLink to={`/product/${item.id}/category/${item.category}`} className="btn btn-sm border-0 shadow-none" title="product details">
-                                  <img src={item.thumbnail} alt="no image" width={80} height={80} />
-                                </NavLink></div><hr />
-                      <div className="font-weight-bold col-6">Price</div><div className="ml-2">&#8377; {item.price}</div><hr />
-                      <div className="font-weight-bold col-6">Discount</div><div className="ml-2">{item.discountPercentage} %</div><hr />
-                      <div className="font-weight-bold col-6">Quantity</div><div className="ml-2 d-flex justify-content-between">
-                                  <i onClick={() => decrement(item.id)} className="bi bi-dash-circle text-danger pointer"></i>
-                                    <strong> {item.quantity} </strong>
-                                  <i onClick={() => increment(item.id)} className="bi bi-plus-circle text-success pointer"></i>
-                                </div><hr />
-                      <div className="font-weight-bold col-6">Subtotal</div><div className="ml-2">&#8377;  {Math.floor(item.price * item.quantity*100)/100}</div><hr />
-                      <div className="font-weight-bold col-6">Action</div><div className="ml-2"><i onClick={() => delItem(item.id)} className="bi bi-trash text-danger pointer"></i></div><hr className='col-12' />
-                    </div>
+                     <table key={index} bordered className="table-responsive table-bordered table-striped table col-12">
+                       <tbody className='text-center'>
+                       <tr>
+                         <th>Title</th>
+                         <td>
+                          <div className="d-inline-block text-truncate col-12" style={{ maxWidth: '200px' }}>{item.title}</div>
+                        </td>
+                       </tr>
+                       <tr>
+                         <th>Image</th>
+                         <td>
+                          <div className="ml-2">
+                            <NavLink to={`/product/${item.id}/category/${item.category}`} className="btn btn-sm border-0 shadow-none" title="product details">
+                              <img src={item.thumbnail} alt="no image" width={40} height={40} />
+                            </NavLink>
+                          </div>
+                          </td>
+                       </tr>
+                       <tr>
+                         <th>Price</th><td>&#8377; {item.price}</td>
+                       </tr>
+                       <tr>
+                         <th>Discount</th><td>{item.discountPercentage} %</td>
+                       </tr><tr>
+                         <th>Quantity</th>
+                         <td>
+                            <i onClick={() => decrement(item.id)} className="bi bi-dash-circle text-danger pointer"></i>
+                            <strong> {item.quantity} </strong>
+                            <i onClick={() => increment(item.id)} className="bi bi-plus-circle text-success pointer"></i>
+                          </td>
+                       </tr>
+                       <tr>
+                         <th>Subtotal</th><td>&#8377;  {Math.floor(item.price * item.quantity*100)/100}</td>
+                       </tr>
+                       <tr>
+                        <th  colSpan={2}>
+                          <button className="btn btn-outline-danger w-100" onClick={() => delItem(item.id)}>Remove</button>
+                        </th>
+                       </tr>
+                       </tbody>
+                     </table>
                   ))}
                 </div>
 
               </div>
 
-              <div className="col-md-4 col-lg-3 col-sm-12">
+              <div className="col-md-4 col-lg-3 col-sm-12 mt-5">
                 <div className="card">
 
                   <div className="card-header">
