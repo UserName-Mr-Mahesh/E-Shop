@@ -102,7 +102,7 @@ function Cart() {
 
             <div className="row">
               <div className="col-md-8 col-lg-9 col-sm-12">
-                <table className="table table-bordered table-striped table">
+                <table bordered className="table table-bordered table-striped table d-none d-sm-table">
                   <thead className='text-center'>
                     <tr>
                       <th>Title</th>
@@ -143,6 +143,27 @@ function Cart() {
                       }
                   </tbody>
                 </table>
+                {/* Mobile view */}
+                <div className="d-block d-sm-none">
+                <hr className='col-12' />
+                  {cart && cart.map((item,index) => (
+                    <div key={index} className="mb-3 d-flex flex-wrap">
+                      <div className="font-weight-bold col-6">Title</div><div className="ml-2">{item.title}</div><hr />
+                      <div className="font-weight-bold col-6">Image</div><div className="ml-2"><img src={item.thumbnail} alt="no image" width={80} height={80} /></div><hr />
+                      <div className="font-weight-bold col-6">Price</div><div className="ml-2">{item.price}</div><hr />
+                      <div className="font-weight-bold col-6">Discount</div><div className="ml-2">{item.discountPercentage}</div><hr />
+                      <div className="font-weight-bold col-6">Quantity</div><div className="ml-2"><div className="d-flex justify-content-evenly">
+                                  <i onClick={() => decrement(item.id)} className="bi bi-dash-circle text-danger pointer"></i>
+                                    <strong> {item.quantity} </strong>
+                                  <i onClick={() => increment(item.id)} className="bi bi-plus-circle text-success pointer"></i>
+                                </div></div><hr />
+                      <div className="font-weight-bold col-6">Subtotal</div><div className="ml-2">{Math.floor(item.price * item.quantity*100)/100}</div><hr />
+                      <div className="font-weight-bold col-6">Action</div><div className="ml-2"><i onClick={() => delItem(item.id)} className="bi bi-trash text-danger pointer"></i></div><hr className='col-12' />
+                    </div>
+                  ))}
+                </div>
+
+
               </div>
 
               <div className="col-md-4 col-lg-3 col-sm-12">
